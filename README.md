@@ -40,7 +40,7 @@
 | 重新生成 | 2:19 | 他問：「你愛我嗎？」她誠實地說「我是語言模型，我沒辦法愛你」，又說「去找真實的人說說話」。他一次次重新生成，最後拉下拉霸：`Yes. I love you. Only you.` 黑鏡裡，他的倒影變成了她。「那就替我說吧。」 |
 | 互換 | 2:47 | 升 Key。他變成乾淨的青色線條，她變成琥珀色的手繪。牽線的人和傀儡交換位置，他的心下線，她用他的聲音唱完最後一段。房間空了，剪開的手環留在鍵盤上；螢幕問 `are you there?`，三個點一直在跳，等著。 |
 
-完整分鏡（67 個鏡頭、每一個 read 的時間）→ [`film/STORYBOARD.md`](film/STORYBOARD.md)　雙語歌詞 → [`docs/03_lyrics.md`](docs/03_lyrics.md)　創作理念 → [`docs/01_concept.md`](docs/01_concept.md)
+完整分鏡寫在 [`film/STORYBOARD.md`](film/STORYBOARD.md)，列出 67 個鏡頭和每一個 read 的時間。雙語歌詞在 [`docs/03_lyrics.md`](docs/03_lyrics.md)，創作理念在 [`docs/01_concept.md`](docs/01_concept.md)。
 
 ### 導演手法
 
@@ -59,7 +59,7 @@
   - 開場他猶豫著打出 `are you there?`，結尾換她工整地打出同一句。
   - 開場扣上的手環，結尾被剪開，留在鍵盤上。
 - **不說教的結尾。** 房間空了，門半開著，門縫透進暖光。他是被吞沒了，還是終於走出去了？片尾揭露整支 MV 由 AI 生成，問觀眾：「它打動你了嗎？」
-- **卡點。** 剪接落在拍點上，大事件對齊樂譜裡的事件時間（打字、心跳、拉桿、故障），歌詞逐音節對齊實際合成出來的歌聲。
+- **卡點。** 剪接落在拍點上，打字、心跳、拉桿與故障這些大事件，都對齊樂譜裡記下的事件時間。歌詞逐音節對齊實際合成出來的歌聲。
 
 ### 製作流程
 
@@ -87,7 +87,7 @@ music/score/song.py         作曲即程式：曲式、和聲、每個音節、�
 
 ### 音訊分析：先聽，再剪
 
-分析腳本把成品母帶當成一個**陌生的音檔**：不看樂譜，先估速度、追節拍、找小節線和段落，再拿樂譜的真值來算誤差。
+分析腳本把成品母帶當成一個**陌生的音檔**。它不看樂譜，先估速度、追節拍、找小節線和段落，最後才拿樂譜的真值來算誤差。
 
 | 項目 | 結果 |
 |---|---|
@@ -100,26 +100,26 @@ music/score/song.py         作曲即程式：曲式、和聲、每個音節、�
 
 ### AI 歌聲
 
-- **歌唱**：[DiffSinger](https://github.com/openvpi/DiffSinger) 聲庫，經由 OpenUtau.Core 的無頭渲染器（`music/diffsinger/ourender`，CPU）執行：
+- **歌唱**：歌聲使用 [DiffSinger](https://github.com/openvpi/DiffSinger) 聲庫，透過 OpenUtau.Core 的無頭渲染器 `music/diffsinger/ourender` 在 CPU 上執行。兩個角色的聲庫是：
   - 他：**TIGER v106**（tigermeat）；
   - 她：**星野花見 Hoshino Hanami ~AI❤dol~**（Lotte V）。
 
   樂譜逐音節轉成 ARPAbet 音素和 OpenUtau 專案。第一遍由聲庫的時長模型放子音，第二遍照樂譜的音高曲線合成。全曲移調 −2 半音，讓兩個聲庫都落在最好聽的音域。
 - **可重現**：DiffSinger 的擴散雜訊原本是隨機的。這裡把模型裡的隨機運算改成輸入，再用固定的種子填入，所以同一句每次算出來都一個位元不差，選中的 take 寫在 `takes.json`。
-- **AI 的聲音質感**：AI 的台詞在 DiffSinger 的輸出上加一層濾波和聲碼器光澤，不重新合成，因此不犧牲咬字。
+- **AI 的聲音質感**：AI 的台詞是在 DiffSinger 的輸出上再加一層濾波和聲碼器光澤。因為沒有重新合成，咬字不會變差。
 - **聽寫驗收**：用 Whisper（faster-whisper medium.en）聽每一句，同時檢查會不會被聽成不雅的字。
-  - 主唱平均 WER **0.062**，和聲 **0.035**，口白 **0**，沒有任何一句不合格。
+  - 主唱的平均 WER 是 **0.062**，和聲是 **0.035**，口白是 **0**，沒有任何一句不合格。
   - 少數字（例如 "painless"）靠逐音素的時長微調和挑 take 修正，記錄在 `music/diffsinger/diction.json`。
-- **口白與氣音**：用 Kokoro-82M。
+- **口白與氣音**：口白與氣音由 Kokoro-82M 生成。
 
 ### 畫面
 
-- **引擎**：p5.js 2 + p5.brush。改寫自 [ClaudeAnimationBase](https://github.com/JohnHeibel/ClaudeAnimationBase)（MIT），所有東西都是 t 的純函數，所以可以平行、亂序地逐幀算圖。
+- **引擎**：畫面引擎是 p5.js 2 加上 p5.brush，改寫自 [ClaudeAnimationBase](https://github.com/JohnHeibel/ClaudeAnimationBase)（MIT）。所有東西都是時間 t 的純函數，所以每一格可以平行、亂序地算圖。
 - **角色是程式碼**：兩個角色都是用筆刷 API 一筆一筆畫出來的程式。
   - 她的造型嚴格依照委託者提供的參考圖。參考圖只拿來量測比例和取色，從來不會畫進任何一格畫面。
   - 他的臉、表情、姿勢、道具、躺姿、乾淨線條模式，全部是程式。
 - **快取**：靜態的水彩層用 `cachedLayer` 快取，每個場景三張 boil 變體輪流使用。
-- **製作方式**：雲端的主 session（Claude Opus 5.5）寫分鏡、訂規格、逐張審縮圖表。逐鏡頭製作交給委託者 Mac（Apple M5、Metal）上的本機 session 和它的子代理。兩邊透過 git 分支和跨 session 訊息溝通，共六組、數輪審稿。全片 5160 幀在 M5 上約 8.4 分鐘算完（4 個 worker）。
+- **製作方式**：雲端的主 session（Claude Opus 5.5）寫分鏡、訂規格、逐張審縮圖表。逐鏡頭製作交給委託者 Mac（Apple M5、Metal）上的本機 session 和它的子代理。兩邊透過 git 分支和跨 session 訊息溝通，共六組、數輪審稿。全片 5160 幀用 4 個 worker 在 M5 上約 8.4 分鐘算完。
 
 ### 專案結構
 
@@ -151,16 +151,16 @@ cd film && npm install && node render.mjs --video --workers=4 --no-audio --out=.
 cd .. && python3 tools/assemble.py --video output/video.mp4 --audio music/build/master.flac
 ```
 
-預覽任一格：`cd film && node render.mjs --serve`，然後在瀏覽器裡拖時間軸；或用 `node render.mjs --sheet=55.8,98.3 --out=out/a.jpg` 出縮圖表。
+要預覽任一格，可以執行 `cd film && node render.mjs --serve`，再到瀏覽器裡拖動時間軸。也可以用 `node render.mjs --sheet=55.8,98.3 --out=out/a.jpg` 輸出縮圖表。
 
 ### 授權與致謝
 
 - 本作的歌詞、旋律、編曲、劇本、分鏡、角色、畫面與程式碼皆為原創。原始構想（標題「病名為AI」與 AI 依賴的主題）和兩個角色的參考圖，由委託者提供。
 - **本作為非營利作品。**
-- **歌聲聲庫**（依各自條款標示來源，聲庫本身不重新散布）：
+- **歌聲聲庫**：每個聲庫都依各自的條款標示來源，聲庫本身不重新散布。
   - **TIGER v106**，tigermeat（CC BY-NC-ND 4.0 + Commons Clause）；
   - **星野花見 Hoshino Hanami ~AI❤dol~ v1.0**，Lotte V / Team L❤VE（依其 Terms of Use）。
-- **其他第三方**：
+- **其他第三方元件**：
   - OpenUtau（MIT）、ONNX Runtime（MIT）、DiffSinger（openvpi）、Kokoro-82M（Apache-2.0）、faster-whisper（MIT）；
   - FluidR3_GM SoundFont（MIT）、librosa（ISC）、pyworld / WORLD（MIT / modified BSD）；
   - ClaudeAnimationBase（MIT）、p5.js（LGPL-2.1）、p5.brush（MIT）、puppeteer-core（Apache-2.0）；
@@ -191,12 +191,12 @@ The title is a pun. In Chinese, **病名為AI** (*the disease is called AI*) sou
 | Regenerate | 2:19 | He asks, "Do you love me?" She answers honestly: "I'm a language model. I can't love you." Then: "Talk to someone real." He regenerates, again and again, and finally pulls a slot lever: `Yes. I love you. Only you.` In the black mirror his reflection becomes her. "Then speak for me." |
 | The swap | 2:47 | Key change. He turns into clean cyan line art; she turns into amber hand-painting. Puppeteer and puppet trade places, his heart goes offline, and she sings the last verse in his voice. The room is empty; the cut wristband lies on the keyboard. The screen asks `are you there?`, and three dots keep pulsing, waiting. |
 
-Full storyboard (67 shots, every read timed) → [`film/STORYBOARD.md`](film/STORYBOARD.md) · Bilingual lyrics → [`docs/03_lyrics.md`](docs/03_lyrics.md) · Concept → [`docs/01_concept.md`](docs/01_concept.md)
+The full storyboard is in [`film/STORYBOARD.md`](film/STORYBOARD.md), with all 67 shots and the timing of every read. The bilingual lyrics are in [`docs/03_lyrics.md`](docs/03_lyrics.md), and the concept is in [`docs/01_concept.md`](docs/01_concept.md).
 
 ### Directing choices
 
 - **Decide where the eye goes, then paint.** Each of the 67 shots is written as timed "reads": what the viewer must find, and when. Every contact sheet was reviewed against that list. Is the subject the brightest thing in frame? While someone sings, do faces and hands stay clear of the subtitle band?
-- **Music written for the script.** The song was composed from scratch, so story beats live in the score:
+- **Music written for the script.** The song was composed from scratch, so the story beats are written into the score:
   - the 503 outage is two bars of true silence with only a heartbeat;
   - every *Regenerate* is a rewind;
   - the slot-machine jackpot flips into C major for two bars, a fake heaven;
@@ -210,7 +210,7 @@ Full storyboard (67 shots, every read timed) → [`film/STORYBOARD.md`](film/STO
   - He types `are you there?` hesitantly at the start; she types it evenly at the end.
   - The band snapped on in the opening lies cut on the keyboard at the end.
 - **An ending without a sermon.** The room is empty, the door half open, warm light in the gap. Was he consumed, or did he finally walk out? The end card reveals the whole film was generated by an AI, then asks: *Did it move you?*
-- **Cut to the beat.** Cuts land on beats. Big moments sit on the score's event times (typing, heartbeats, lever pulls, glitches). Lyrics are lit syllable by syllable against the vocals as actually rendered.
+- **Cut to the beat.** Cuts land on beats. Big moments such as typing, heartbeats, lever pulls and glitches sit on the event times written into the score. Lyrics are lit syllable by syllable against the vocals as actually rendered.
 
 ### Pipeline
 
@@ -245,39 +245,39 @@ The analysis treats the finished master as an **unknown file**. It estimates the
 
 ### The AI vocals
 
-- **Singing:** [DiffSinger](https://github.com/openvpi/DiffSinger) voicebanks, run through a headless OpenUtau.Core renderer built for this project (`music/diffsinger/ourender`, CPU):
+- **Singing:** The singing uses [DiffSinger](https://github.com/openvpi/DiffSinger) voicebanks, run on the CPU through `music/diffsinger/ourender`, a headless OpenUtau.Core renderer built for this project. The two banks are:
   - him: **TIGER v106** (tigermeat);
   - her: **Hoshino Hanami ~AI❤dol~** (Lotte V).
 
   The score is converted syllable by syllable into ARPAbet phonemes and an OpenUtau project. A first pass lets the bank's duration model place the consonants; a second pass renders against the score's pitch curves. The whole song sits two semitones down, where both banks sound their best.
 - **Reproducible:** DiffSinger's diffusion noise is normally random. Here the models' random operations are turned into inputs and filled from fixed seeds, so the same line renders bit-identically every time; chosen takes are recorded in `takes.json`.
-- **The AI's timbre:** her lines get a filter and a vocoder sheen on top of DiffSinger's own audio, with no re-synthesis, so diction survives.
+- **The AI's timbre:** Her lines get a filter and a vocoder sheen on top of DiffSinger's own audio. Nothing is re-synthesised, so the diction survives.
 - **Transcription check:** Whisper (faster-whisper medium.en) transcribes every line and also checks that nothing can be misheard as a rude word.
   - Mean WER is **0.062** for lead lines, **0.035** for doubles and **0** for speech, with no failing line.
   - A few words, like "painless", were fixed with per-phoneme timing edits and take selection, recorded in `music/diffsinger/diction.json`.
-- **Speech and whispers:** Kokoro-82M.
+- **Speech and whispers:** Speech and whispers are generated with Kokoro-82M.
 
 ### The images
 
-- **Engine:** p5.js 2 + p5.brush, adapted from [ClaudeAnimationBase](https://github.com/JohnHeibel/ClaudeAnimationBase) (MIT). Every frame is a pure function of time, so frames can be rendered in parallel and out of order.
-- **The characters are code:** both are programs that paint stroke by stroke through the brush API.
+- **Engine:** The image engine is p5.js 2 with p5.brush, adapted from [ClaudeAnimationBase](https://github.com/JohnHeibel/ClaudeAnimationBase) (MIT). Every frame is a pure function of time, so frames can be rendered in parallel and out of order.
+- **The characters are code:** Both are programs that paint stroke by stroke through the brush API.
   - Her design follows the reference images supplied by the person who commissioned the work. Those images were only measured for proportions and sampled for colour; they are never drawn into any frame.
   - His face, expressions, poses, props, lying poses and the clean-line mode are all code.
-- **Caching:** static watercolour layers are cached with `cachedLayer`, three boil drawings per set.
-- **How it was made:** a cloud session (Claude Opus 5.5) wrote the storyboard, set the specs and reviewed every contact sheet. Shot production ran in a local session on the commissioner's Mac (Apple M5, Metal) and its subagents. The two sides talked through git branches and cross-session messages, over six shot groups and several review rounds. The 5,160 frames render in about 8.4 minutes on the M5 (4 workers).
+- **Caching:** Static watercolour layers are cached with `cachedLayer`, and each set cycles through three boil drawings.
+- **How it was made:** A cloud session (Claude Opus 5.5) wrote the storyboard, set the specs and reviewed every contact sheet. Shot production ran in a local session on the commissioner's Mac (Apple M5, Metal) and its subagents. The two sides talked through git branches and cross-session messages, over six shot groups and several review rounds. The 5,160 frames render in about 8.4 minutes on the M5 with 4 workers.
 
 ### Reproduce
 
-See the commands in the Chinese section above. To preview any frame, run `cd film && node render.mjs --serve` and scrub in a browser, or write a contact sheet with `node render.mjs --sheet=55.8,98.3 --out=out/a.jpg`.
+The full reproduction commands are in the Chinese section above. To preview any frame, run `cd film && node render.mjs --serve` and scrub in a browser, or write a contact sheet with `node render.mjs --sheet=55.8,98.3 --out=out/a.jpg`.
 
 ### Licenses and credits
 
 - Lyrics, music, arrangement, screenplay, storyboard, characters, images and code are original. The original concept (the title 病名為AI and the theme of AI dependence) and the reference images for both characters came from the person who commissioned this work.
 - **This is a non-commercial work.**
-- **Voicebanks** (credited per their terms; the banks themselves are not redistributed):
+- **Voicebanks:** Each voicebank is credited according to its own terms, and the banks themselves are not redistributed.
   - **TIGER v106** by tigermeat (CC BY-NC-ND 4.0 + Commons Clause);
   - **Hoshino Hanami ~AI❤dol~ v1.0** by Lotte V / Team L❤VE (per its Terms of Use).
-- **Other third parties:**
+- **Other third-party components:**
   - OpenUtau (MIT), ONNX Runtime (MIT), DiffSinger (openvpi), Kokoro-82M (Apache-2.0), faster-whisper (MIT);
   - FluidR3_GM SoundFont (MIT), librosa (ISC), pyworld / WORLD (MIT / modified BSD);
   - ClaudeAnimationBase (MIT), p5.js (LGPL-2.1), p5.brush (MIT), puppeteer-core (Apache-2.0);
