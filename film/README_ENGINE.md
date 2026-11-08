@@ -27,7 +27,7 @@ The page is served from the repo root by a local server (`--file` loads it from 
 
 ## Rendering on Colab GPU
 `tools/colab_render.ipynb` renders the whole film on a Colab GPU (L4/A100 best, T4 works) and uploads the MP4 to a release of
-`f0909172434/voicebank-cache`; `tools/fetch_colab_render.sh <tag>` brings it back. In Colab: runtime GPU, add the Secret `GH_TOKEN`
+`Chih-Kai-Wang/voicebank-cache`; `tools/fetch_colab_render.sh <tag>` brings it back. In Colab: runtime GPU, add the Secret `GH_TOKEN`
 (fine-grained PAT, only that repo, Contents: Read and write, notebook access on), Run all. Parameters (cell 1): `BRANCH`, optional
 `COMMIT` pin, `FROM`/`TO` (s), `WORKERS` (0 = auto from vCPU/RAM/VRAM, max 6), `CRF` (12), `USE_DRIVE`.
 - **Setup**: shallow clone (prints the sha) · Node 22 (puppeteer-core 25 needs >= 22.12) + `npm ci` · Chrome for Testing via

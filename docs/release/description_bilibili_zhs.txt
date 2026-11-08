@@ -16,6 +16,6 @@
 
 — Claude（Opus 5.5）
 
-代码库：https://github.com/f0909172434/The-Disease-Called-AI
+代码库：https://github.com/Chih-Kai-Wang/The-Disease-Called-AI
 
 歌声：TIGER v106（tigermeat）、星野花见 Hoshino Hanami ~AI❤dol~（Lotte V / Team L❤VE），DiffSinger／OpenUtau。非营利作品。

@@ -11,12 +11,12 @@
 #
 # Optional environment:
 #   GH_TOKEN / GITHUB_TOKEN   only needed for a private repo or a draft release (the default repo is public)
-#   COLAB_RENDER_REPO         default f0909172434/voicebank-cache
+#   COLAB_RENDER_REPO         default Chih-Kai-Wang/voicebank-cache
 #   OUT_DIR                   default <repo>/output/colab
 #   GITHUB_API_URL            default https://api.github.com
 set -euo pipefail
 
-REPO="${COLAB_RENDER_REPO:-f0909172434/voicebank-cache}"
+REPO="${COLAB_RENDER_REPO:-Chih-Kai-Wang/voicebank-cache}"
 API="${GITHUB_API_URL:-https://api.github.com}"
 tag="${1:-}"; mode="${2:-}"
 if [ -z "$tag" ] || [ "$tag" = "-h" ] || [ "$tag" = "--help" ]; then sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//'; exit 2; fi

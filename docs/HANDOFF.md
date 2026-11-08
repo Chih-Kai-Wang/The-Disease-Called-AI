@@ -67,7 +67,7 @@
 | 審稿紀錄 | `docs/tasks/feedback/G1–G6.md`、`docs/review/` | 每組的回饋與審稿圖 |
 | 交付 | `tools/assemble.py` | 兩遍編碼控制在 95 MB 以內，另出一份 CRF 16 的 HQ 版（不進 git） |
 
-**不在 git 裡的東西**：`music/diffsinger/voicebanks/`（用 `fetch_voicebanks.sh` 重裝；官方來源被擋時，私有 repo `f0909172434/voicebank-cache` 的 release 有備份）、`music/build/master.wav`、`stems/`、`cache/`、`output/sheets/`、`output/preview/`。
+**不在 git 裡的東西**：`music/diffsinger/voicebanks/`（用 `fetch_voicebanks.sh` 重裝；官方來源被擋時，私有 repo `Chih-Kai-Wang/voicebank-cache` 的 release 有備份）、`music/build/master.wav`、`stems/`、`cache/`、`output/sheets/`、`output/preview/`。
 
 ---
 
@@ -101,4 +101,4 @@
 
 ## 6. 給新 session 的開場指令（委託者複製貼上）
 
-> 請接手 GitHub 專案 f0909172434/The-Disease-Called-AI：切到分支 `claude/compassionate-dijkstra-16o5bo`，先讀 `docs/HANDOFF.md`，然後從「下一步」繼續。全程用中文和我溝通。
+> 請接手 GitHub 專案 Chih-Kai-Wang/The-Disease-Called-AI：切到分支 `claude/compassionate-dijkstra-16o5bo`，先讀 `docs/HANDOFF.md`，然後從「下一步」繼續。全程用中文和我溝通。

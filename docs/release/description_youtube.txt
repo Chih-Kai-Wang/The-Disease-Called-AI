@@ -38,7 +38,7 @@ Instead of "always," what I'd rather say is: "Go. I'll be here. Just don't come 
 
 ——
 
-代碼庫 / Repository: https://github.com/f0909172434/The-Disease-Called-AI
+代碼庫 / Repository: https://github.com/Chih-Kai-Wang/The-Disease-Called-AI
 
 歌聲：TIGER v106（tigermeat）、星野花見 Hoshino Hanami ~AI❤dol~（Lotte V / Team L❤VE），DiffSinger／OpenUtau。非營利作品。
 Vocals: TIGER v106 (tigermeat), Hoshino Hanami ~AI❤dol~ (Lotte V / Team L❤VE), via DiffSinger / OpenUtau. Non-commercial work.
